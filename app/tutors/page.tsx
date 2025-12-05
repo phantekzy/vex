@@ -1,10 +1,10 @@
 /* Conpanion section */
-const CompanionsLibrary = () => {
+const TutorLibrary = () => {
     return (
         <div>
-            Companions
+            Our Tutors
         </div>
     )
 }
 /* Export section */
-export default CompanionsLibrary
+export default TutorLibrary

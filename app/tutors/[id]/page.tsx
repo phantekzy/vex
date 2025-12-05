@@ -1,9 +1,8 @@
-
 /* Session section */
-const CompanionSession = () => {
+const TutorSession = () => {
     return (
         <div>Session</div>
     )
 }
 /* Export section */
-export default CompanionSession
+export default TutorSession

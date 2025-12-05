@@ -175,21 +175,21 @@ body {
   .btn-signin {
     @apply border border-black rounded-4xl px-4 py-2.5 text-sm font-semibold flex items-center gap-2 cursor-pointer;
   }
-  .companion-list {
+  .tutor-list {
     @apply rounded-4xl border border-black px-7 pt-7 pb-10 max-lg:w-full bg-white;
   }
-  .companion-limit {
+  .tutor-limit {
     @apply items-center justify-center flex flex-col gap-4 w-full min-2xl:w-1/2 pt-20 text-center;
   }
 
-  .companion-section {
+  .tutor-section {
     @apply border-2 border-orange-500 w-2/3 max-sm:w-full flex flex-col gap-4 justify-center items-center rounded-lg;
   }
 
-  .companion-avatar {
+  .tutor-avatar {
     @apply size-[300px] flex items-center justify-center rounded-lg max-sm:size-[100px] mt-4;
   }
-  .companion-lottie {
+  .tutor-lottie {
     @apply size-[300px] max-sm:size-[100px];
   }
 

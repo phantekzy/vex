@@ -1,8 +1,8 @@
 /* NewCompanion section */
-const NewSensei = () => {
+const NewTutor = () => {
     return (
         <div>New Sensei</div>
     )
 }
 /* Export section */
-export default NewSensei
+export default NewTutor

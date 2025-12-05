@@ -2,6 +2,7 @@
 import CTA from "@/components/CTA"
 import TutorCard from "@/components/TutorCard"
 import TutorList from "@/components/TutorList"
+import { recentSessions } from "@/constants"
 
 /* Page section */
 const Page = () => {
@@ -40,7 +41,11 @@ const Page = () => {
             </section>
 
             <section className="home-section mt-12">
-                <TutorList />
+                <TutorList
+                    title="Recently completed sessions"
+                    tutors={recentSessions}
+                    classNames="w-2/3 max-lg:w-full"
+                />
                 <CTA />
             </section>
         </main>

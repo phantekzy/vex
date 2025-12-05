@@ -2,7 +2,7 @@
 const TutorLibrary = () => {
     return (
         <div>
-            Our Tutors
+            Vex has the best AI tutors for you !
         </div>
     )
 }

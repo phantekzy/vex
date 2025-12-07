@@ -40,7 +40,7 @@ const Page = () => {
                 />
             </section>
 
-            <section className="home-section mt-12">
+            <section className="home-section mt-12 mb-10">
                 <TutorList
                     title="Recently completed sessions"
                     tutors={recentSessions}

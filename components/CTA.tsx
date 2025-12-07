@@ -31,7 +31,7 @@ const CTA = () => {
                 <Link
                     href="/tutors/new"
                 >
-                    <p>Customize Your Tutor</p>
+                    <p>Build Your Tutor</p>
                 </Link>
             </button>
         </section>

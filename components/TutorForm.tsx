@@ -227,6 +227,7 @@ const TutorForm = () => {
                             <FormLabel>Duration of the tutoring session in minutes :</FormLabel>
                             <FormControl>
                                 <Input
+                                    type="number"
                                     placeholder="Enter duration in minutes (e.g., 30)" {...field}
                                     className="input"
                                 />

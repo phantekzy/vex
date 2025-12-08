@@ -28,6 +28,20 @@ export const getAllTutors = async ({
   const supabase = createSupabaseClient();
   let query = supabase.from("Tutors").select();
   if (subject && topic) {
+    query = query
+      .ilike("subject", `%${subject}%`)
+      .or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`);
+  } else if (subject) {
     query = query.ilike("subject", `%${subject}%`);
+  } else if (topic) {
+    query = query.or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`);
   }
+
+  query = query.range((page - 1) * limit, page * limit - 1);
+
+  const { data: tutors, error } = await query;
+
+  if (error) throw new Error(error.message);
+
+  return tutors;
 };

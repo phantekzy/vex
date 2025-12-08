@@ -1,10 +1,10 @@
 /* Conpanion section */
-const TutorLibrary = () => {
+const TutorsLibrary = () => {
     return (
         <div>
-            Vex has the best AI tutors for you !
+            Vex tutors library
         </div>
     )
 }
 /* Export section */
-export default TutorLibrary
+export default TutorsLibrary

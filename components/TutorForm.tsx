@@ -28,16 +28,25 @@ import { createTutor } from "@/lib/actions/tutor.actions"
 import { redirect } from "next/navigation"
 
 const formSchema = z.object({
-    name: z.string().min(1, "Please provide the tutor’s name."),
-    subject: z.string().min(1, "Please select the subject of the lesson"),
-    topic: z.string().min(1, "Please define the topic of the lesson"),
-    voice: z.string().min(1, "Please select your tutor's voice"),
-    style: z.string().min(1, "The voice style selection is required"),
-    duration: z.coerce.number().min(1, "The lesson duration is required"), // <--- coercion here
+    name: z
+        .string()
+        .min(1, "Please provide the tutor’s name."),
+    subject: z
+        .string()
+        .min(1, "Please select the subject of the lesson"),
+    topic: z
+        .string()
+        .min(1, "Please define the topic of the lesson"),
+    voice: z
+        .string()
+        .min(1, "Please select your tutor's voice"),
+    style: z
+        .string()
+        .min(1, "The voice style selection is required"),
+    duration: z
+        .number()
+        .min(1, "The lesson duration is required"),
 })
-
-
-
 /* Tutor formular */
 const TutorForm = () => {
     /* Define the form */
@@ -212,14 +221,12 @@ const TutorForm = () => {
 
                 <FormField
                     control={form.control}
-                    type="number"
                     name="duration"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Duration of the tutoring session in minutes :</FormLabel>
                             <FormControl>
                                 <Input
-                                    type="number"
                                     placeholder="Enter duration in minutes (e.g., 30)" {...field}
                                     className="input"
                                 />

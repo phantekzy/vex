@@ -17,36 +17,27 @@ import { Input } from "@/components/ui/input"
 import {
     Select,
     SelectContent,
-    SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { subjects } from "@/constants"
 import { Textarea } from "./ui/textarea"
+import { createTutor } from "@/lib/actions/tutor.actions"
+import { redirect } from "next/navigation"
 
 const formSchema = z.object({
-    name: z
-        .string()
-        .min(1, "Please provide the tutor’s name."),
-    subject: z
-        .string()
-        .min(1, "Please select the subject of the lesson"),
-    topic: z
-        .string()
-        .min(1, "Please define the topic of the lesson"),
-    voice: z
-        .string()
-        .min(1, "Please select your tutor's voice"),
-    style: z
-        .string()
-        .min(1, "The voice style selection is required"),
-    duration: z
-        .number()
-        .min(1, "The lesson duration is required"),
+    name: z.string().min(1, "Please provide the tutor’s name."),
+    subject: z.string().min(1, "Please select the subject of the lesson"),
+    topic: z.string().min(1, "Please define the topic of the lesson"),
+    voice: z.string().min(1, "Please select your tutor's voice"),
+    style: z.string().min(1, "The voice style selection is required"),
+    duration: z.coerce.number().min(1, "The lesson duration is required"), // <--- coercion here
 })
+
+
+
 /* Tutor formular */
 const TutorForm = () => {
     /* Define the form */
@@ -62,8 +53,14 @@ const TutorForm = () => {
         },
     })
     /* Submit the form */
-    const onSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log(data)
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        const tutor = await createTutor(data)
+        if (tutor) {
+            redirect(`/tutors/${tutor.id}`)
+        } else {
+            console.log("Tutor creation failed")
+            redirect("/")
+        }
     }
     return (
         <Form {...form}>
@@ -215,6 +212,7 @@ const TutorForm = () => {
 
                 <FormField
                     control={form.control}
+                    type="number"
                     name="duration"
                     render={({ field }) => (
                         <FormItem>

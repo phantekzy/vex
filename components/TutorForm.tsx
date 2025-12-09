@@ -1,9 +1,9 @@
 'use client'
-// External packages
+
 import * as z from "zod"
-import { useForm } from "react-hook-form"
+import { useForm, Controller, SubmitHandler, Resolver } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-// UI components – form, input, select, button
+
 import {
     Form,
     FormField,
@@ -22,34 +22,27 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import { subjects } from "@/constants"
 import { Textarea } from "./ui/textarea"
 import { createTutor } from "@/lib/actions/tutor.actions"
 import { redirect } from "next/navigation"
+import { subjects } from "@/constants"
 
+// Schema
 const formSchema = z.object({
-    name: z
-        .string()
-        .min(1, "Please provide the tutor’s name."),
-    subject: z
-        .string()
-        .min(1, "Please select the subject of the lesson"),
-    topic: z
-        .string()
-        .min(1, "Please define the topic of the lesson"),
-    voice: z
-        .string()
-        .min(1, "Please select your tutor's voice"),
-    style: z
-        .string()
-        .min(1, "The voice style selection is required"),
+    name: z.string().min(1, "Please provide the tutor’s name."),
+    subject: z.string().min(1, "Please select the subject of the lesson"),
+    topic: z.string().min(1, "Please define the topic of the lesson"),
+    voice: z.string().min(1, "Please select your tutor's voice"),
+    style: z.string().min(1, "The voice style selection is required"),
     duration: z.coerce.number().min(1, "The lesson duration is required"),
 })
-/* Tutor formular */
-const TutorForm = () => {
-    /* Define the form */
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+
+// Form values type
+type FormValues = z.infer<typeof formSchema>
+
+const TutorForm: React.FC = () => {
+    const form = useForm<FormValues>({
+        resolver: zodResolver(formSchema) as Resolver<FormValues>,
         defaultValues: {
             name: "",
             subject: "",
@@ -59,31 +52,26 @@ const TutorForm = () => {
             duration: 15,
         },
     })
-    /* Submit the form */
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+
+    const onSubmit: SubmitHandler<FormValues> = async (data) => {
         const tutor = await createTutor(data)
-        if (tutor) {
-            redirect(`/tutors/${tutor.id}`)
-        } else {
-            console.log("Tutor creation failed")
-            redirect("/")
-        }
+        if (tutor) redirect(`/tutors/${tutor.id}`)
+        else redirect("/")
     }
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mb-10">
-                {/* Name section */}
+
+                {/* Name */}
                 <FormField
                     control={form.control}
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Specify your designated AI tutor’s name : </FormLabel>
+                            <FormLabel>Specify your designated AI tutor’s name :</FormLabel>
                             <FormControl>
-                                <Input
-                                    placeholder="Ferchouch" {...field}
-                                    className="input"
-                                />
+                                <Input {...field} placeholder="Ferchouch" className="input" />
                             </FormControl>
                             <FormDescription>
                                 Specify the designated name of your personal AI tutor.
@@ -92,7 +80,8 @@ const TutorForm = () => {
                         </FormItem>
                     )}
                 />
-                {/* Subject section */}
+
+                {/* Subject */}
                 <FormField
                     control={form.control}
                     name="subject"
@@ -101,34 +90,29 @@ const TutorForm = () => {
                             <FormLabel>Select the tutoring subject :</FormLabel>
                             <FormControl>
                                 <Select
-                                    onValueChange={field.onChange}
                                     value={field.value}
+                                    onValueChange={field.onChange}
                                     defaultValue={field.value}
                                 >
-                                    <SelectTrigger className="input ">
+                                    <SelectTrigger className="input">
                                         <SelectValue placeholder="Select the subject" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {subjects.map((subject) => (
-                                            <SelectItem
-                                                key={subject}
-                                                value={subject}
-                                                className="capitalize"
-                                            >
+                                            <SelectItem key={subject} value={subject} className="capitalize">
                                                 {subject}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
                                 </Select>
                             </FormControl>
-                            <FormDescription>
-                                Select Tutoring Subject
-                            </FormDescription>
+                            <FormDescription>Select Tutoring Subject</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                {/* Topic section */}
+
+                {/* Topic */}
                 <FormField
                     control={form.control}
                     name="topic"
@@ -136,19 +120,15 @@ const TutorForm = () => {
                         <FormItem>
                             <FormLabel>Specify the topic for tutoring :</FormLabel>
                             <FormControl>
-                                <Textarea
-                                    placeholder="Ex. Introduction to Algebra" {...field}
-                                    className="input"
-                                />
+                                <Textarea {...field} placeholder="Ex. Introduction to Algebra" className="input" />
                             </FormControl>
-                            <FormDescription>
-                                Define the focus area for your tutor.
-                            </FormDescription>
+                            <FormDescription>Define the focus area for your tutor.</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                {/* Voice selection */}
+
+                {/* Voice */}
                 <FormField
                     control={form.control}
                     name="voice"
@@ -157,32 +137,26 @@ const TutorForm = () => {
                             <FormLabel>Choose the desired tutor voice :</FormLabel>
                             <FormControl>
                                 <Select
-                                    onValueChange={field.onChange}
                                     value={field.value}
+                                    onValueChange={field.onChange}
                                     defaultValue={field.value}
                                 >
-                                    <SelectTrigger className="input ">
+                                    <SelectTrigger className="input">
                                         <SelectValue placeholder="Select a voice" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value='male'>
-                                            Male
-                                        </SelectItem>
-
-                                        <SelectItem value='female'>
-                                            Female
-                                        </SelectItem>
+                                        <SelectItem value="male">Male</SelectItem>
+                                        <SelectItem value="female">Female</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </FormControl>
-                            <FormDescription>
-                                Pick a voice style for your AI tutor
-                            </FormDescription>
+                            <FormDescription>Pick a voice style for your AI tutor</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                {/* Voice style */}
+
+                {/* Style */}
                 <FormField
                     control={form.control}
                     name="style"
@@ -191,32 +165,26 @@ const TutorForm = () => {
                             <FormLabel>Select the tutor’s speaking style :</FormLabel>
                             <FormControl>
                                 <Select
-                                    onValueChange={field.onChange}
                                     value={field.value}
+                                    onValueChange={field.onChange}
                                     defaultValue={field.value}
                                 >
-                                    <SelectTrigger className="input ">
+                                    <SelectTrigger className="input">
                                         <SelectValue placeholder="Select the style" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value='formal'>
-                                            Formal
-                                        </SelectItem>
-
-                                        <SelectItem value='casual'>
-                                            Casual
-                                        </SelectItem>
+                                        <SelectItem value="formal">Formal</SelectItem>
+                                        <SelectItem value="casual">Casual</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </FormControl>
-                            <FormDescription>
-                                Choose how your AI tutor should speak
-                            </FormDescription>
+                            <FormDescription>Choose how your AI tutor should speak</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
 
+                {/* Duration */}
                 <FormField
                     control={form.control}
                     name="duration"
@@ -225,28 +193,25 @@ const TutorForm = () => {
                             <FormLabel>Duration of the tutoring session in minutes :</FormLabel>
                             <FormControl>
                                 <Input
-                                    placeholder="Enter duration in minutes (e.g., 30)" {...field}
+                                    type="number"
+                                    placeholder="Enter duration in minutes (e.g., 30)"
+                                    {...field}
                                     className="input"
                                 />
                             </FormControl>
-                            <FormDescription>
-                                Specify how long the session should last
-                            </FormDescription>
+                            <FormDescription>Specify how long the session should last</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
 
-
-                <Button
-                    type="submit"
-                    className="w-full cursor-pointer"
-                >
+                <Button type="submit" className="w-full cursor-pointer">
                     Confirm Tutor Setup
                 </Button>
             </form>
         </Form>
     )
 }
-/* Export section */
+
 export default TutorForm
+

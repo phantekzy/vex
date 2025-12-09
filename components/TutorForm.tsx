@@ -3,7 +3,7 @@
 import * as z from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-// UI components – form, input, select, button
+// UI components
 import {
     Form,
     FormField,
@@ -43,14 +43,16 @@ const formSchema = z.object({
     style: z
         .string()
         .min(1, "The voice style selection is required"),
-    duration: z
+    duration: z.coerce
         .number()
         .min(1, "The lesson duration is required"),
 })
-/* Tutor formular */
+
+type FormValues = z.infer<typeof formSchema>
+
 const TutorForm = () => {
-    /* Define the form */
-    const form = useForm<z.infer<typeof formSchema>>({
+    /* Define the form with the explicit type */
+    const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
@@ -61,8 +63,8 @@ const TutorForm = () => {
             duration: 15,
         },
     })
-    /* Submit the form */
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+
+    const onSubmit = async (data: FormValues) => {
         const tutor = await createTutor(data)
         if (tutor) {
             redirect(`/tutors/${tutor.id}`)
@@ -71,12 +73,13 @@ const TutorForm = () => {
             redirect("/")
         }
     }
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mb-10">
                 {/* Name section */}
-                <FormField
-                    control={form.control}
+                <FormField<FormValues>
+                    control={form.control as any}
                     name="name"
                     render={({ field }) => (
                         <FormItem>
@@ -94,9 +97,10 @@ const TutorForm = () => {
                         </FormItem>
                     )}
                 />
+
                 {/* Subject section */}
-                <FormField
-                    control={form.control}
+                <FormField<FormValues>
+                    control={form.control as any}
                     name="subject"
                     render={({ field }) => (
                         <FormItem>
@@ -130,9 +134,10 @@ const TutorForm = () => {
                         </FormItem>
                     )}
                 />
+
                 {/* Topic section */}
-                <FormField
-                    control={form.control}
+                <FormField<FormValues>
+                    control={form.control as any}
                     name="topic"
                     render={({ field }) => (
                         <FormItem>
@@ -150,9 +155,10 @@ const TutorForm = () => {
                         </FormItem>
                     )}
                 />
+
                 {/* Voice selection */}
-                <FormField
-                    control={form.control}
+                <FormField<FormValues>
+                    control={form.control as any}
                     name="voice"
                     render={({ field }) => (
                         <FormItem>
@@ -170,7 +176,6 @@ const TutorForm = () => {
                                         <SelectItem value='male'>
                                             Male
                                         </SelectItem>
-
                                         <SelectItem value='female'>
                                             Female
                                         </SelectItem>
@@ -184,9 +189,10 @@ const TutorForm = () => {
                         </FormItem>
                     )}
                 />
+
                 {/* Voice style */}
-                <FormField
-                    control={form.control}
+                <FormField<FormValues>
+                    control={form.control as any}
                     name="style"
                     render={({ field }) => (
                         <FormItem>
@@ -204,7 +210,6 @@ const TutorForm = () => {
                                         <SelectItem value='formal'>
                                             Formal
                                         </SelectItem>
-
                                         <SelectItem value='casual'>
                                             Casual
                                         </SelectItem>
@@ -219,8 +224,9 @@ const TutorForm = () => {
                     )}
                 />
 
-                <FormField
-                    control={form.control}
+                {/* Duration Section */}
+                <FormField<FormValues>
+                    control={form.control as any}
                     name="duration"
                     render={({ field }) => (
                         <FormItem>
@@ -228,7 +234,8 @@ const TutorForm = () => {
                             <FormControl>
                                 <Input
                                     type="number"
-                                    placeholder="Enter duration in minutes (e.g., 30)" {...field}
+                                    placeholder="Enter duration in minutes (e.g., 30)"
+                                    {...field}
                                     className="input"
                                 />
                             </FormControl>
@@ -240,7 +247,6 @@ const TutorForm = () => {
                     )}
                 />
 
-
                 <Button
                     type="submit"
                     className="w-full cursor-pointer"
@@ -251,5 +257,5 @@ const TutorForm = () => {
         </Form>
     )
 }
-/* Export section */
+
 export default TutorForm

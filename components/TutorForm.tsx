@@ -43,10 +43,7 @@ const formSchema = z.object({
     style: z
         .string()
         .min(1, "The voice style selection is required"),
-    duration: z
-        .coerce
-        .number()
-        .min(1, "The lesson duration is required"),
+    duration: z.coerce.number().min(1, "The lesson duration is required"),
 })
 /* Tutor formular */
 const TutorForm = () => {

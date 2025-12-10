@@ -10,15 +10,18 @@ const SearchInput = () => {
     const [searchQuery, setSearchQuery] = useState(searchParams.get('topic') || '')
 
     useEffect(() => {
-        const params = new URLSearchParams(searchParams.toString())
+        const delayDebounceFn = setTimeout(() => {
+            const params = new URLSearchParams(searchParams.toString())
+            if (searchQuery === '') {
+                params.delete('topic')
+            } else {
+                params.set('topic', searchQuery)
+            }
+            router.push(`${pathname}?${params.toString()}`)
+        }, 500)
 
-        if (searchQuery === '') {
-            params.delete('topic')
-        } else {
-            params.set('topic', searchQuery)
-        }
+        return () => clearTimeout(delayDebounceFn)
 
-        router.push(`${pathname}?${params.toString()}`)
     }, [searchQuery])
 
     return (

@@ -1,4 +1,5 @@
 /* Import section */
+import TutorComponent from "@/components/TutorComponent"
 import { getTutor } from "@/lib/actions/tutor.actions"
 import { getSubjectColor } from "@/lib/utils"
 import { currentUser } from "@clerk/nextjs/server"
@@ -48,6 +49,12 @@ const TutorSession = async ({ params }: TutorSessionPageProps) => {
                     {tutor.duration} minutes
                 </div>
             </article>
+            <TutorComponent
+                {...tutor}
+                tutorId={id}
+                userName={user.firstName!}
+                userImage={user.imageUrl!}
+            />
         </main>
     )
 }

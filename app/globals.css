@@ -183,7 +183,7 @@ body {
   }
 
   .tutor-section {
-    @apply border-2 border-orange-500 w-2/3 max-sm:w-full flex flex-col gap-4 justify-center items-center rounded-lg;
+    @apply border-2 border-black w-2/3 max-sm:w-full flex flex-col gap-4 justify-center items-center rounded-lg;
   }
 
   .tutor-avatar {

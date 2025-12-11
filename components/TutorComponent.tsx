@@ -1,6 +1,6 @@
 'use client'
 /* Import section */
-import { cn, getSubjectColor } from "@/lib/utils"
+import { cn, configureAssistant, getSubjectColor } from "@/lib/utils"
 import { vapi } from "@/lib/vapi.sdk"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
@@ -61,9 +61,30 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
         /* for UI */
         setIsMuted(!isMuted)
     }
+    /* Call tutor handler */
+    const handleCall = async () => {
+        setCallStatus(CallStatus.CONNTECTING)
+        const assistantOverrides = {
+            variableValues: {
+                subject,
+                topic,
+                style,
+            },
+            clientMessages: ['transcript'],
+            serverMessages: [],
+        }
+        vapi.start(configureAssistant(voice, style), assistantOverrides)
+    }
+    /* Disconnect call handler */
+    const handelDisconnect = () => {
+        setCallStatus(CallStatus.FINISHED)
+        vapi.stop()
+    }
+
     /* Return section */
     return (
         <section className="flex flex-col h-[70vh]">
+            {/* Voice call section */}
             <section className="flex gap-8 max-sm:flex-col">
                 <div className="tutor-section">
                     <div className="tutor-avatar"
@@ -141,8 +162,16 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
                         'rounded-lg py-2 cursor-pointer transition-colors w-full text-white',
                         callStatus === CallStatus.ACTIVE
                             ? 'bg-black'
-                            : 'bg-primary'
-                    )}>
+                            : 'bg-primary',
+                        callStatus === CallStatus.CONNTECTING
+                        && 'animate-pulse'
+                    )}
+                        onClick={
+                            callStatus === CallStatus.ACTIVE
+                                ? handelDisconnect
+                                : handleCall
+                        }
+                    >
                         {callStatus === CallStatus.ACTIVE
                             ? "End the lesson"
                             : callStatus === CallStatus.CONNTECTING
@@ -152,6 +181,14 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
 
                     </button>
                 </div>
+            </section>
+
+            {/* Transcript section */}
+            <section className="transcript">
+                <div className="transcript-message no-scrollbar">
+                    TRANSCRIPT MESSAGES
+                </div>
+                <div className="transcript-fade" />
             </section>
         </section>
     )

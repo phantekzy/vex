@@ -10,7 +10,6 @@ const TutorsLibrary = async ({ searchParams }: SearchParams) => {
     const subject = filters.subject ? filters.subject : ''
     const topic = filters.topic ? filters.topic : ''
     const tutors = await getAllTutors({ subject, topic })
-    console.log(tutors)
     return (
         <main>
             <section className="flex justify-between gap-4 max-sm:flex-col">

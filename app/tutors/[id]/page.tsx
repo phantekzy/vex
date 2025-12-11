@@ -45,7 +45,7 @@ const TutorSession = async ({ params }: TutorSessionPageProps) => {
                         </p>
                     </div>
                 </div>
-                <div className=" flex items-center text-2xl max-md:hidden">
+                <div className=" items-start text-2xl max-md:hidden">
                     {tutor.duration} minutes
                 </div>
             </article>

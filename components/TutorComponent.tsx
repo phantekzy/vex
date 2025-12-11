@@ -6,6 +6,7 @@ import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 import Lottie, { LottieRefCurrentProps } from "lottie-react"
 import soundwaves from "@/constants/soundwaves.json"
+import { addToSessionHistory } from "@/lib/actions/tutor.actions"
 /* Enum for CallStatus */
 enum CallStatus {
     INACTIVE = 'INACTIVE',
@@ -14,8 +15,7 @@ enum CallStatus {
     FINISHED = 'FINISHED',
 }
 /* Tutor component */
-// I removed the tutorId inchalah i dont forget it
-const TutorComponent = ({ subject, topic, name, userName, userImage, style, voice }: TutorComponentProps) => {
+const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, style, voice }: TutorComponentProps) => {
     /* use state */
     const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE)
     const [isSpeaking, setIsSpeaking] = useState(false)
@@ -35,7 +35,10 @@ const TutorComponent = ({ subject, topic, name, userName, userImage, style, voic
     /* use effect */
     useEffect(() => {
         const onCallStart = () => setCallStatus(CallStatus.ACTIVE)
-        const onCallEnd = () => setCallStatus(CallStatus.FINISHED)
+        const onCallEnd = () => {
+            setCallStatus(CallStatus.FINISHED)
+            addToSessionHistory(tutorId)
+        }
         const onMessage = (message: Message) => {
             if (message.type === 'transcript' && message.transcriptType === 'final') {
                 const newMessage = {
@@ -68,7 +71,6 @@ const TutorComponent = ({ subject, topic, name, userName, userImage, style, voic
     const toggleMic = () => {
         const isMuted = vapi.isMuted()
         vapi.setMuted(!isMuted)
-        /* for UI */
         setIsMuted(!isMuted)
     }
     /* Call tutor handler */
@@ -150,7 +152,9 @@ const TutorComponent = ({ subject, topic, name, userName, userImage, style, voic
                             {userName}
                         </p>
                     </div>
-                    <button className="btn-mic"
+                    <button
+                        className="btn-mic"
+                        disabled={callStatus !== CallStatus.ACTIVE}
                         onClick={toggleMic}
                     >
                         <Image
@@ -173,7 +177,7 @@ const TutorComponent = ({ subject, topic, name, userName, userImage, style, voic
                     <button className={cn(
                         'rounded-lg py-2 cursor-pointer transition-colors w-full text-white',
                         callStatus === CallStatus.ACTIVE
-                            ? 'bg-black'
+                            ? 'bg-red-700'
                             : 'bg-primary',
                         callStatus === CallStatus.CONNTECTING
                         && 'animate-pulse'
@@ -198,11 +202,11 @@ const TutorComponent = ({ subject, topic, name, userName, userImage, style, voic
             {/* Transcript section */}
             <section className="transcript">
                 <div className="transcript-message no-scrollbar">
-                    {messages.map((message) => {
+                    {messages.map((message, index) => {
                         if (message.role === 'assistant') {
                             return (
                                 <p
-                                    key={message.content}
+                                    key={index}
                                     className="max-sm:text-sm"
                                 >
                                     {name
@@ -213,7 +217,7 @@ const TutorComponent = ({ subject, topic, name, userName, userImage, style, voic
                             )
                         } else {
                             return <p
-                                key={message.content}
+                                key={index}
                                 className="text-primary max-sm:text-sm"
                             >
                                 {userName} : {message.content}

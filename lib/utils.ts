@@ -55,7 +55,9 @@ export const configureAssistant = (voice: string, style: string) => {
         },
       ],
     },
+    // @ts-expect-error Vapi types are incorrect, this is valid at runtime
     clientMessages: [],
+    // @ts-expect-error Vapi types are incorrect, this is valid at runtime
     serverMessages: [],
   };
   return vapiAssistant;

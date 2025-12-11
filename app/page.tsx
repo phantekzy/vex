@@ -2,7 +2,6 @@
 import CTA from "@/components/CTA"
 import TutorCard from "@/components/TutorCard"
 import TutorList from "@/components/TutorList"
-import { recentSessions } from "@/constants"
 import { getAllTutors, getRecentSessions } from "@/lib/actions/tutor.actions"
 
 /* Page section */
@@ -18,7 +17,7 @@ const Page = async () => {
                     <TutorCard
                         key={tutor.id}
                         {...tutor}
-                        color="#f3f3f3" // Light Gray
+                        color="#f3f3f3"
                     />
                 ))}
             </section>

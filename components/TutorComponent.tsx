@@ -18,7 +18,7 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
     /* use state */
     const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE)
     const [isSpeaking, setIsSpeaking] = useState(false)
-
+    const [isMuted, setIsMuted] = useState(false)
     /* Lottie ref */
     const lottieRef = useRef<LottieRefCurrentProps>(null)
     useEffect(() => {
@@ -30,7 +30,6 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
             }
         }
     }, [isSpeaking, lottieRef])
-
     /* use effect */
     useEffect(() => {
         const onCallStart = () => setCallStatus(CallStatus.ACTIVE)
@@ -39,7 +38,6 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
         const onSpeechStart = () => setIsSpeaking(true)
         const onSpeechEnd = () => setIsSpeaking(false)
         const onError = (error: Error) => console.log('Error', error)
-
         /* vapi events */
         vapi.on('call-start', onCallStart)
         vapi.on('call-end', onCallEnd)
@@ -47,7 +45,6 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
         vapi.on('error', onError)
         vapi.on('speech-start', onSpeechStart)
         vapi.on('speech-end', onSpeechEnd)
-
         return () => {
             vapi.off('call-start', onCallStart)
             vapi.off('call-end', onCallEnd)
@@ -56,9 +53,14 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
             vapi.off('speech-start', onSpeechStart)
             vapi.off('speech-end', onSpeechEnd)
         }
-
     })
-
+    /* Microphone toggle */
+    const toggleMic = () => {
+        const isMuted = vapi.isMuted()
+        vapi.setMuted(!isMuted)
+        /* for UI */
+        setIsMuted(!isMuted)
+    }
     /* Return section */
     return (
         <section className="flex flex-col h-[70vh]">
@@ -70,7 +72,7 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
                         <div className={cn(
                             'absolute transition-opacity duration-1000',
                             callStatus === CallStatus.FINISHED || callStatus === CallStatus.INACTIVE
-                                ? 'opacity-1001'
+                                ? 'opacity-100'
                                 : 'opacity-0',
                             callStatus === CallStatus.CONNTECTING
                             && 'opacity-100 animate-pulse'
@@ -115,6 +117,40 @@ const TutorComponent = ({ tutorId, subject, topic, name, userName, userImage, st
                             {userName}
                         </p>
                     </div>
+                    <button className="btn-mic"
+                        onClick={toggleMic}
+                    >
+                        <Image
+                            src={
+                                isMuted
+                                    ? '/icons/mic-off.svg'
+                                    : '/icons/mic-on.svg'
+                            }
+                            alt="microphone"
+                            width={36}
+                            height={36}
+                        />
+                        <p className="max-sm:hidden">
+                            {isMuted
+                                ? 'Turn on Microphone'
+                                : 'Turn off Microphone'
+                            }
+                        </p>
+                    </button>
+                    <button className={cn(
+                        'rounded-lg py-2 cursor-pointer transition-colors w-full text-white',
+                        callStatus === CallStatus.ACTIVE
+                            ? 'bg-black'
+                            : 'bg-primary'
+                    )}>
+                        {callStatus === CallStatus.ACTIVE
+                            ? "End the lesson"
+                            : callStatus === CallStatus.CONNTECTING
+                                ? "Connecting"
+                                : 'Start Lesson'
+                        }
+
+                    </button>
                 </div>
             </section>
         </section>

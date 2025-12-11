@@ -74,6 +74,7 @@ const TutorComponent = ({ subject, topic, name, userName, userImage, style, voic
     /* Call tutor handler */
     const handleCall = async () => {
         setCallStatus(CallStatus.CONNTECTING)
+
         const assistantOverrides = {
             variableValues: {
                 subject,
@@ -83,6 +84,7 @@ const TutorComponent = ({ subject, topic, name, userName, userImage, style, voic
             clientMessages: ['transcript'],
             serverMessages: [],
         }
+        // @ts-expect-error Vapi types are incorrect, this is valid at runtime
         vapi.start(configureAssistant(voice, style), assistantOverrides)
     }
     /* Disconnect call handler */

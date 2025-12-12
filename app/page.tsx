@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 /* Import section */
 import CTA from "@/components/CTA"
 import TutorCard from "@/components/TutorCard"

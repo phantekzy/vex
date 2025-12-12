@@ -21,7 +21,7 @@ const TutorList = ({ title, tutors, classNames }: TutorListProps) => {
     return (
         <article className={cn('tutor-list', classNames)}>
 
-            <h2 className="font-bold text-3xl">Latest Lessons</h2>
+            <h2 className="font-bold text-3xl">{title}</h2>
             <Table>
                 <TableHeader>
                     <TableRow>

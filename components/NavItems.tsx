@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation"
 const navItems = [
     { label: 'Home', href: '/' },
     { label: 'Tutors', href: '/tutors' },
-    { label: 'My Progess', href: '/my-progress' },
+    { label: 'Progress', href: '/my-progress' },
 
 ]
 /* Navigation bar items sectio */

@@ -83,3 +83,13 @@ export const getUserSessions = async (userId: string, limit = 10) => {
   /* Return the latest 10 tutors */
   return data.map(({ tutors }) => tutors);
 };
+
+export const getUserTutors = async (userId: string) => {
+  const supabase = createSupabaseClient();
+  const { data, error } = await supabase
+    .from("Tutors")
+    .select()
+    .eq("author", userId);
+  if (error) throw new Error(error.message);
+  return data;
+};

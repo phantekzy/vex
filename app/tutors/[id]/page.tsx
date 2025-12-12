@@ -14,7 +14,7 @@ const TutorSession = async ({ params }: TutorSessionPageProps) => {
     const { id } = await params
     const tutor = await getTutor(id)
     const user = await currentUser()
-    if (!user) redirect('sign-in')
+    if (!user) redirect('/sign-in')
     if (!tutor) redirect('/tutors')
     return (
         <main>

@@ -39,16 +39,6 @@ Tech Stack
   - PostCSS: CSS processing and optimization.
   - Tailwind Merge: Merges Tailwind class names intelligently in components.
 
-Project Structure
-
-  app/           → Next.js routes, layouts, and page structure
-  components/    → Reusable UI components
-  lib/           → Utility functions, helpers, and API clients
-  constants/     → Global constants used across the app
-  types/         → TypeScript type definitions
-  styles/        → Global CSS and Tailwind imports
-  public/        → Static assets like images, icons, and fonts
-
 Details:
 
   - app/layout.tsx
@@ -70,3 +60,4 @@ Styling & Theming
   - Dark mode is supported via Tailwind’s dark variant, toggleable at the top-level layout
     (html tag or provider).
   - Custom colors, breakpoints, and themes can be extended in tailwind.config.js.
+

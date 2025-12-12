@@ -2,6 +2,8 @@
 /* Import section */
 import { auth } from "@clerk/nextjs/server";
 import { createSupabaseClient } from "../supabase";
+import { useId } from "react";
+import { throws } from "assert";
 
 /* Tutor creation */
 export const createTutor = async (formData: CreateTutor) => {
@@ -92,4 +94,34 @@ export const getUserTutors = async (userId: string) => {
     .eq("author", userId);
   if (error) throw new Error(error.message);
   return data;
+};
+/* Users permisions */
+export const newTutorPermissions = async () => {
+  const { userId, has } = await auth();
+  const supabase = createSupabaseClient();
+  /* default limit */
+  let limit = 0;
+  /* Permission based of the plan */
+  if (has({ plan: "Mentor" })) {
+    return true;
+  } else if (has({ feature: "3_tutor_limit" })) {
+    limit = 3;
+  } else if (has({ feature: "10_tutor_limit" })) {
+    limit = 10;
+  }
+  /* Select the data */
+  const { data, error } = await supabase
+    .from("Tutors")
+    .select("id", { count: "exact" })
+    .eq("author", userId);
+  /* Error condition */
+  if (error) throw new Error(error.message);
+  /* Counting the tutors */
+  const tutorCount = data?.length;
+  /* Limit condition */
+  if (tutorCount >= limit) {
+    return false;
+  } else {
+    return true;
+  }
 };

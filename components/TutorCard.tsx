@@ -15,7 +15,6 @@ const TutorCard = ({ id, name, topic, subject, duration, color }: TutorCardProps
     return (
         <article
             className="tutor-card"
-            style={{ backgroundColor: color }}
         >
             <div className="flex justify-between items-center">
                 <div className="subject-badge">{subject}</div>

@@ -1,13 +1,15 @@
 export const dynamic = 'force-dynamic';
 
 import CTA from "@/components/CTA"
+import FeaturesSection from "@/components/FeaturesSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import TutorCard from "@/components/TutorCard"
 import TutorList from "@/components/TutorList"
 import { getAllTutors, getRecentSessions } from "@/lib/actions/tutor.actions"
 import Link from "next/link";
 
 const HeroSection = () => (
-    <section className="flex flex-col items-center text-center gap-4 py-20 px-4 bg-transparent">
+    <section className="flex flex-col items-center text-center gap-4 py-10 px-4 bg-transparent">
         <p className="cta-badge">Vex Personalized Learning Powered by AI</p>
 
         <h1 className="text-5xl font-extrabold tracking-tighter max-w-4xl text-foreground max-sm:text-4xl">
@@ -37,7 +39,7 @@ const Page = async () => {
     return (
         <main>
             <HeroSection />
-
+            <FeaturesSection />
             <h1 className="text-3xl font-bold mb-6 text-center">Popular Tutors</h1>
             <section className="home-section tutors-grid">
                 {tutors.map((tutor) => (
@@ -48,7 +50,7 @@ const Page = async () => {
                     />
                 ))}
             </section>
-
+            <TestimonialsSection />
             <section className="home-section mt-12 mb-10">
                 <TutorList
                     title="Recently completed sessions"

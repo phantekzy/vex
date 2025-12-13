@@ -10,7 +10,6 @@ interface FormData {
 }
 const ContactPage = () => {
     const [formData, setFormData] = useState<FormData>({
-
         name: '',
         email: '',
         subject: '',

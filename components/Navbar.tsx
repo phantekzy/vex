@@ -13,11 +13,7 @@ const Navbar = () => {
 
     return (
         <nav className="navbar">
-
-            {/* Main Content Row: Logo, Desktop Links, Hamburger Button */}
             <div className="flex items-center justify-between w-full">
-
-                {/* Logo Section (Always visible) */}
                 <Link href="/" onClick={() => setMobileMenuIsOpen(false)}>
                     <div className="flex items-center cursor-pointer">
                         <Image
@@ -29,9 +25,8 @@ const Navbar = () => {
                     </div>
                 </Link>
 
-                {/* 1. Desktop Navigation (Hidden on mobile) */}
                 <div className="hidden md:flex items-center gap-8">
-                    <NavItems isMobile={false} /> {/* Desktop styling */}
+                    <NavItems isMobile={false} />
                     <SignedOut>
                         <SignInButton >
                             <button className="btn-signin">Sign in</button>
@@ -42,7 +37,7 @@ const Navbar = () => {
                     </SignedIn>
                 </div>
 
-                {/* 2. Hamburger Button (Hidden on desktop, Visible on mobile) */}
+                {/* Hamburger Button */}
                 <button
                     onClick={toggleMenu}
                     className="md:hidden p-2 focus:outline-none"
@@ -52,30 +47,26 @@ const Navbar = () => {
                 </button>
             </div>
 
-            {/* 3. Mobile Menu Content (Conditionally rendered with GRID) */}
+            {/*Mobile Menu Content*/}
             {mobileMenuIsOpen && (
                 <div
-                    // Full width, absolute position below navbar, hidden on desktop
                     className="md:hidden w-full absolute left-0 top-[68px] 
                                bg-card/90 backdrop-blur-lg border-b border-border/50
                                animate-in slide-in-from-top duration-300 z-40"
                 >
-                    {/* GRID CONTAINER: Splits the whole mobile menu into 2 equal columns (col-2) */}
+                    {/* GRID CONTAINER */}
                     <div className="px-4 py-4 grid grid-cols-2 gap-4 items-start">
 
-                        {/* LEFT COLUMN: Navigation Links (Vertically stacked) */}
+                        {/* LEFT COLUMN: Navigation Links  */}
                         <div className="flex flex-col space-y-2 py-2">
-                            {/* NavItems is now passed the necessary props for mobile styling and closing */}
                             <NavItems isMobile={true} toggleMenu={toggleMenu} />
                         </div>
 
-                        {/* RIGHT COLUMN: Auth Buttons and Description (Vertically stacked, Right-aligned, with Border) */}
+                        {/* RIGHT COLUMN: Sign in*/}
                         <div className="flex flex-col space-y-4 items-end pl-4 border-l border-gray-600/50">
-
-                            {/* Auth Components Container */}
+                            {/* Sign in Container */}
                             <div className="flex flex-col space-y-2 items-end w-full">
-
-                                {/* Sign In Button (Orange, Auto-Width) */}
+                                {/* Sign In Button*/}
                                 <SignedOut>
                                     <SignInButton >
                                         <button
@@ -87,15 +78,14 @@ const Navbar = () => {
                                         </button>
                                     </SignInButton>
                                 </SignedOut>
-
                                 {/* User Button */}
                                 <SignedIn>
-                                    <div className="py-2 w-fit flex justify-end items-center">
+                                    <div className="py-2  w-fit flex justify-end items-center">
+                                        <p className="px-4 pt-2">Your Profile</p>
                                         <UserButton afterSignOutUrl="/" />
                                     </div>
                                 </SignedIn>
                             </div>
-
                             {/* Description Box */}
                             <div className="text-right text-xs text-gray-400 max-w-xs">
                                 <p>

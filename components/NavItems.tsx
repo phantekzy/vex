@@ -3,14 +3,11 @@ import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-/* --- 1. DEFINE PROPS INTERFACE --- */
+/* Navigation items interface */
 interface NavItemsProps {
-    // isMobile is a boolean, optional with a default value of false
     isMobile?: boolean;
-    // toggleMenu is a function that takes no arguments and returns nothing (void)
     toggleMenu?: () => void;
 }
-
 /* Navigation items */
 const navItems = [
     { label: 'Home', href: '/' },
@@ -21,19 +18,12 @@ const navItems = [
 ]
 
 /* Navigation bar items section */
-// 2. APPLY THE INTERFACE TO THE COMPONENT
 const NavItems = ({ isMobile = false, toggleMenu }: NavItemsProps) => {
     const pathname = usePathname()
-
-    // Container style: Vertical stack for mobile, Horizontal row for desktop
     const containerClasses = isMobile
-        ? "space-y-2" // Mobile: Vertical stacking, minimal class to fit the grid
+        ? "space-y-2"
         : "flex items-center gap-4";
-
-    // Base styles for links
     const linkBaseClasses = "transition hover:text-primary/80";
-
-    // Mobile-specific link styles: Minimal padding, ensures block element for stacking
     const mobileLinkClasses = "text-left py-1 px-2 rounded-md hover:bg-gray-700 block text-sm";
 
     return (
@@ -44,12 +34,9 @@ const NavItems = ({ isMobile = false, toggleMenu }: NavItemsProps) => {
                     key={label}
                     className={cn(
                         linkBaseClasses,
-                        // Active link color
                         pathname === href && 'text-primary font-semibold',
-                        // Apply mobile styles or default desktop color
-                        isMobile ? mobileLinkClasses : "text-white",
+                        isMobile ? mobileLinkClasses : "text-black",
                     )}
-                    // Menu close logic
                     onClick={isMobile ? toggleMenu : undefined}
                 >
                     {label}
@@ -58,6 +45,5 @@ const NavItems = ({ isMobile = false, toggleMenu }: NavItemsProps) => {
         </nav>
     )
 }
-
 /* Export section */
 export default NavItems

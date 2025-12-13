@@ -1,20 +1,45 @@
 export const dynamic = 'force-dynamic';
 
-/* Import section */
 import CTA from "@/components/CTA"
 import TutorCard from "@/components/TutorCard"
 import TutorList from "@/components/TutorList"
 import { getAllTutors, getRecentSessions } from "@/lib/actions/tutor.actions"
+import Link from "next/link";
 
-/* Page section */
+const HeroSection = () => (
+    <section className="flex flex-col items-center text-center gap-4 py-20 px-4 bg-transparent">
+        <p className="cta-badge">Vex Personalized Learning Powered by AI</p>
+
+        <h1 className="text-5xl font-extrabold tracking-tighter max-w-4xl text-foreground max-sm:text-4xl">
+            Unlock Your Potential with <span className="text-primary/90">Adaptive AI Tutoring</span>
+        </h1>
+
+        <p className="text-xl text-muted-foreground max-w-3xl">
+            Experience 24/7 one-on-one help across any subject. Our AI Tutors adapt to your pace and style to guarantee mastery.
+        </p>
+
+        <div className="mt-6">
+            <Link
+                href="/tutors/new"
+            >
+                <button className="btn-primary text-lg">
+                    Start Free Session Now
+                </button>
+            </Link>
+        </div>
+    </section>
+);
+
 const Page = async () => {
     const tutors = await getAllTutors({ limit: 3 })
     const recentSessionsTutors = await getRecentSessions()
+
     return (
         <main>
-            <h1 className="text-3xl font-bold mb-6">Popular Tutors</h1>
+            <HeroSection />
 
-            <section className="home-section flex flex-wrap gap-6">
+            <h1 className="text-3xl font-bold mb-6 text-center">Popular Tutors</h1>
+            <section className="home-section tutors-grid">
                 {tutors.map((tutor) => (
                     <TutorCard
                         key={tutor.id}
@@ -36,6 +61,4 @@ const Page = async () => {
     )
 }
 
-/* Export section */
 export default Page
-

@@ -8,6 +8,7 @@ const navItems = [
     { label: 'Home', href: '/' },
     { label: 'Tutors', href: '/tutors' },
     { label: 'Progress', href: '/my-progress' },
+    { label: 'About Vex', href: '/about' },
 
 ]
 /* Navigation bar items sectio */

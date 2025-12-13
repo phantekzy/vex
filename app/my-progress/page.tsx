@@ -17,8 +17,9 @@ const Profile = async () => {
     const tutors = await getUserTutors(user.id)
     const sessionHistory = await getUserSessions(user.id)
     return (
-        <main className="lg:w-3/4">
-            <section className="flex justify-between gap-4 max-sm:flex-col items-center">
+        <main className="flex flex-col flex-grow lg:w-3/4 mx-auto pt-8 pb-12 px-4 md:px-8">
+
+            <section className="flex justify-between gap-4 max-sm:flex-col items-center mb-6">
                 <div className="flex gap-4 items-center">
                     <Image
                         src={user.imageUrl}
@@ -70,38 +71,39 @@ const Profile = async () => {
                             Tutors created
                         </div>
                     </div>
-
                 </div>
             </section>
-            <Accordion
-                type="multiple">
-                <AccordionItem value="recent">
-                    <AccordionTrigger className="text-2xl font-bold">
-                        Recent Lessons
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        <TutorList
-                            title="Recent lessons"
-                            tutors={sessionHistory}
-                        />
-                    </AccordionContent>
-                </AccordionItem>
 
-                <AccordionItem value="tutors">
-                    <AccordionTrigger className="text-2xl font-bold">
-                        My AI tutors {`${tutors.length}`}
-                    </AccordionTrigger>
-                    <AccordionContent>
-                        <TutorList
-                            title="My tutors"
-                            tutors={tutors}
-                        />
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
+            <div className="grow min-h-[300px]">
+                <Accordion
+                    type="multiple">
+                    <AccordionItem value="recent">
+                        <AccordionTrigger className="text-2xl font-bold">
+                            Recent Lessons
+                        </AccordionTrigger>
+                        <AccordionContent>
+                            <TutorList
+                                title="Recent lessons"
+                                tutors={sessionHistory}
+                            />
+                        </AccordionContent>
+                    </AccordionItem>
+
+                    <AccordionItem value="tutors">
+                        <AccordionTrigger className="text-2xl font-bold">
+                            My AI tutors {`${tutors.length}`}
+                        </AccordionTrigger>
+                        <AccordionContent>
+                            <TutorList
+                                title="My tutors"
+                                tutors={tutors}
+                            />
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
+            </div>
         </main>
     )
 }
 /* Export section */
 export default Profile
-

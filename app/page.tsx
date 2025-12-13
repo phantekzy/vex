@@ -12,7 +12,7 @@ const HeroSection = () => (
     <section className="flex flex-col items-center text-center gap-4 py-10 px-4 bg-transparent">
         <p className="cta-badge">Vex Personalized Learning Powered by AI</p>
 
-        <h1 className="text-5xl font-extrabold tracking-tighter max-w-4xl text-foreground max-sm:text-4xl">
+        <h1 className="text-5xl mt-5 font-extrabold tracking-tighter max-w-4xl text-foreground max-sm:text-4xl">
             Unlock Your Potential with <span className="text-primary/90">Adaptive AI Tutoring</span>
         </h1>
 
@@ -40,7 +40,7 @@ const Page = async () => {
         <main>
             <HeroSection />
             <FeaturesSection />
-            <h1 className="text-3xl font-bold mb-6 text-center">Popular Tutors</h1>
+            <h1 className="text-5xl font-extrabold mb-6 text-center">Popular Tutors</h1>
             <section className="home-section tutors-grid">
                 {tutors.map((tutor) => (
                     <TutorCard
